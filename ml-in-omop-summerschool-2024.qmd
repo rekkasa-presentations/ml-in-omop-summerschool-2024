@@ -1,0 +1,5 @@
+---
+title: "Machine learning applications using OMOP-CDM"
+author: "Alexandros Rekkas"
+format: revealjs
+---
