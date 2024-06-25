@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "Machine learning applications using OMOP-CDM\nThis is the website for the practical session titled Machine learning applications using OMOP-CDM, prepared by Alexandros Rekkas.\nThe practical will use modified data from Synthea™. It can be downloaded from here. The download contains a zipped duckdb database."
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#introduction",
+    "href": "ml-in-omop-summerschool-2024.html#introduction",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Introduction",
+    "text": "Introduction"
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#introduction-1",
+    "href": "ml-in-omop-summerschool-2024.html#introduction-1",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Introduction",
+    "text": "Introduction"
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#problem",
+    "href": "ml-in-omop-summerschool-2024.html#problem",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Problem",
+    "text": "Problem\n\n\n\n\nFor patients hospitalized with pneumonia, what is their probability of death within the next 60 days?"
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#cohort-definition",
+    "href": "ml-in-omop-summerschool-2024.html#cohort-definition",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Cohort definition",
+    "text": "Cohort definition\n\n\nCohort is a set of patients that fulfill a prespecified set of criteria for a duration of time."
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#prediction-setting",
+    "href": "ml-in-omop-summerschool-2024.html#prediction-setting",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Prediction setting",
+    "text": "Prediction setting\n\nTarget cohort (T)\nOutcome cohort (O)\nTime at risk (TAR)"
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#settings",
+    "href": "ml-in-omop-summerschool-2024.html#settings",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Settings",
+    "text": "Settings\n\n\n\n\nDatabase details: The connection details to the database.\nPopulation: Further restrictions on our dataset.\nSplit: The settings for the split (train/test)."
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#settings-1",
+    "href": "ml-in-omop-summerschool-2024.html#settings-1",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Settings",
+    "text": "Settings\n\n\n\n\nRestrict: Mostly temporal restrictions.\nSample: Settings for sampling from the train set.\nFeature engineering: Settings for modifying covariates."
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#settings-2",
+    "href": "ml-in-omop-summerschool-2024.html#settings-2",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Settings",
+    "text": "Settings\n\n\n\n\nCovariates: Covariates to be considered.\nModel: Settings for the model(s) to be trained."
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#performance-evaluation",
+    "href": "ml-in-omop-summerschool-2024.html#performance-evaluation",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Performance evaluation",
+    "text": "Performance evaluation\n\n\n\nDiscrimination\nHow well can the model separate lower risk from higher risk patients?"
+  },
+  {
+    "objectID": "ml-in-omop-summerschool-2024.html#performance-evaluation-1",
+    "href": "ml-in-omop-summerschool-2024.html#performance-evaluation-1",
+    "title": "Machine learning applications using OMOP-CDM",
+    "section": "Performance evaluation",
+    "text": "Performance evaluation\n\n\n\nCalibration\nThe agreement between observed and estimated probabilities of the occurence of the event or outcome."
+  },
+  {
+    "objectID": "Practical.html",
+    "href": "Practical.html",
+    "title": "Practical",
+    "section": "",
+    "text": "You can download the simulated database from here. The data is stored inside a zipped duckdb database. For this practical, we extract the database inside a directory named data.\nYou can connect to the database using HADES package DatabaseConnector like:\n\nconnectionDetails &lt;- DatabaseConnector::createConnectionDetails(\n  dbms = \"duckdb\", \n  server = \"data/database-1M_filtered.duckdb\"\n)\n\nconnection &lt;- DatabaseConnector::connect(\n  connectionDetails = connectionDetails\n)"
+  },
+  {
+    "objectID": "Practical.html#database",
+    "href": "Practical.html#database",
+    "title": "Practical",
+    "section": "",
+    "text": "You can download the simulated database from here. The data is stored inside a zipped duckdb database. For this practical, we extract the database inside a directory named data.\nYou can connect to the database using HADES package DatabaseConnector like:\n\nconnectionDetails &lt;- DatabaseConnector::createConnectionDetails(\n  dbms = \"duckdb\", \n  server = \"data/database-1M_filtered.duckdb\"\n)\n\nconnection &lt;- DatabaseConnector::connect(\n  connectionDetails = connectionDetails\n)"
+  },
+  {
+    "objectID": "Practical.html#data-extraction",
+    "href": "Practical.html#data-extraction",
+    "title": "Practical",
+    "section": "Data extraction",
+    "text": "Data extraction\nFor the specific problem we will use existing cohorts generated by members of the OHDSI community, available in the community atlas instance. More specifically, the target cohort (T) will be cohort with id 1782815, patients hospitalized with pneumonia and the outcome cohort (O) will be patients who died, that is, cohort with id 1782813.\n\ncohortIds &lt;- c(1782815,1782813)\nbaseUrl &lt;- \"http://api.ohdsi.org:8080/WebAPI\"\n\ncohortDefinitionSet &lt;- ROhdsiWebApi::exportCohortDefinitionSet(\n  baseUrl = baseUrl,\n  cohortIds = cohortIds\n)\n\nNext we will generate the cohorts and store them in a table named summerschool inside the original database. For that, we will use the HADES package CohortGenerator.\n\ncohortTableNames &lt;- CohortGenerator::getCohortTableNames(cohortTable = \"summerschool\")\n\n# Next create the tables on the database\nCohortGenerator::createCohortTables(\n  connectionDetails = connectionDetails,\n  cohortTableNames = cohortTableNames,\n  cohortDatabaseSchema = \"main\"\n)\n\n# Generate the cohort set\ncohortsGenerated &lt;- CohortGenerator::generateCohortSet(\n  connectionDetails = connectionDetails,\n  cdmDatabaseSchema = \"main\",\n  cohortDatabaseSchema = \"main\",\n  cohortTableNames = cohortTableNames,\n  cohortDefinitionSet = cohortDefinitionSet\n)"
+  },
+  {
+    "objectID": "Practical.html#single-model",
+    "href": "Practical.html#single-model",
+    "title": "Practical",
+    "section": "Single model",
+    "text": "Single model\nIn this section we will demonstrate the steps required for building a LASSO logistic regression model for the prediction of death within 60 days in patients hospitalized with pneumonia.\n\nDatabase settings\nFirst, we need to define the database details, that is, the connection details, the tables we stored our generated cohorts in (summerschool), the cohort ids we are interested in, as they are stored in the previous table (1782815, 1782813), and the schemas where the database is stored (in this case it is main).\n\nconnectionDetails &lt;- DatabaseConnector::createConnectionDetails(\n  dbms = \"duckdb\", \n  server = \"data/database-1M_filtered.duckdb\"\n)\n\ndatabaseDetails &lt;- PatientLevelPrediction::createDatabaseDetails(\n  connectionDetails = connectionDetails,\n  cdmDatabaseSchema = \"main\",\n  cohortDatabaseSchema = \"main\",\n  cohortTable = \"summerschool\",\n  targetId = 1782815,\n  outcomeDatabaseSchema = \"main\",\n  outcomeTable = \"summerschool\",\n  outcomeIds = 1782813\n)\n\n\n\nCovariate settings\nSecond, we need to define the covariates we will use for training the prediction model. We will do that with the FeatureExtraction. In this case, we will use patients’:\n\ndemographics (gender and age)\nconditions any time and a year prior to being hospitalized with pneumonia\ndrug prescriptions any time and a year prior to being hospitalized with penumonia\nnumber of visits observed in the last year before being hospitalized with pneumonia\n\n\ncovariateSettings &lt;- FeatureExtraction::createCovariateSettings(\n  useDemographicsGender = TRUE,\n  useDemographicsAge = TRUE,\n  useConditionGroupEraLongTerm = TRUE,\n  useConditionGroupEraAnyTimePrior = TRUE,\n  useDrugGroupEraLongTerm = TRUE,\n  useDrugGroupEraAnyTimePrior = TRUE,\n  useVisitConceptCountLongTerm = TRUE,\n  longTermStartDays = -365,\n  endDays = -1\n)\n\n\n\nRestriction settings\nThird, we can define (mostly) time restriction settings for the data we will extract, like the study start and end dates (only include patients in a certain period), washout periods (exclude patients if they are not followed long enough) etc. In this case, we do not define any restriction settings.\n\nrestrictPlpDataSettings &lt;- PatientLevelPrediction::createRestrictPlpDataSettings()\n\n\n\nSample settings\nFourth, we can define sample settings, that can be used to define the way to select a sample of the original dataset to train our prediction models. This can be useful if the original dataset was very large. In this case, we will not define any sample settings.\n\nsampleSettings &lt;- PatientLevelPrediction::createSampleSettings()\n\n\n\nFeature engineering settings\nFifth, we can define feature engineering settings to transform the extracted covariates. In this case, we will not use any feature engineering.\n\nfeatureEngineeringSettings &lt;- PatientLevelPrediction::createFeatureEngineeringSettings()\n\n\n\nPreprocess settings\nSixth, we can define settings for preprocessing the train data, for example, in this case, we will require that any covariate, in order for it to be considered for selection, must be present in at least 1% of the included patients, we want to normalize the data covariates before model training and we want to remove redundant features.\n\npreprocessSettings &lt;- PatientLevelPrediction::createPreprocessSettings(\n  minFraction = .01,\n  normalize = TRUE,\n  removeRedundancy = TRUE\n)\n\n\n\nSplit settings\nWe need to define the split settings, that is, the way the original data will be separated into a training dataset (for model development) and a test dataset (for model evaluation). In this case, we will do a 75-25% train-test split, using 2-fold cross validation in the train set for hyperparameter tuning and evaluation, making sure that event rates remain the same across folds.\n\nsplitSettings &lt;- PatientLevelPrediction::createDefaultSplitSetting(\n  trainFraction = 0.75,\n  testFraction = 0.25,\n  type = 'stratified',\n  nfold = 2, \n  splitSeed = 1234\n)\n\n\n\nPopulation settings\nWe need to define further settings and restrictions to generate the population to be actually used for model development. This allows us to use the same extracted data to generate multiple prediction models, using slightly altered populations (e.g. different TARs, patients with and without prior outcomes, etc.). In this case, we will require patients to have a continuous follow-up in the database of at least 364 days before their hospitalization with pneumonia, we will remove subjects with prior outcomes, and we define the TAR to be 60 days, requiring at least 59 days of follow-up after hospitalization.\n\npopulationSettings &lt;- PatientLevelPrediction::createStudyPopulationSettings(\n  washoutPeriod = 364,\n  firstExposureOnly = FALSE,\n  removeSubjectsWithPriorOutcome = TRUE,\n  priorOutcomeLookback = 9999,\n  riskWindowStart = 1,\n  riskWindowEnd = 60, \n  minTimeAtRisk = 59,\n  startAnchor = 'cohort start',\n  endAnchor = 'cohort start',\n  requireTimeAtRisk = TRUE,\n  includeAllOutcomes = TRUE\n)\n\nFinally, we need to define the settings for training the model we want. In this case, we are going to train a LASSO logistic regression model using the default settings (cyclic coordinate descent).\n\nlrModel &lt;- PatientLevelPrediction::setLassoLogisticRegression()\n\nWe can now extract the data from the database using the following command:\n\nplpData &lt;- PatientLevelPrediction::getPlpData(\n  databaseDetails = databaseDetails,\n  covariateSettings = covariateSettings,\n  restrictPlpDataSettings = restrictPlpDataSettings\n)\n\nWe can, finally, train the LASSO logistic regression model using the following command:\n\nlrResults &lt;- PatientLevelPrediction::runPlp(\n  plpData = plpData,\n  outcomeId = 1782813, \n  analysisId = \"single_model\",\n  analysisName = \"Demonstration of runPlp for training single PLP models\",\n  populationSettings = populationSettings, \n  splitSettings = splitSettings,\n  sampleSettings = sampleSettings, \n  featureEngineeringSettings = featureEngineeringSettings, \n  preprocessSettings = preprocessSettings,\n  modelSettings = lrModel,\n  logSettings = PatientLevelPrediction::createLogSettings(), \n  executeSettings = PatientLevelPrediction::createExecuteSettings(\n    runSplitData = TRUE, \n    runSampleData = TRUE, \n    runfeatureEngineering = TRUE, \n    runPreprocessData = TRUE, \n    runModelDevelopment = TRUE, \n    runCovariateSummary = TRUE\n  ), \n  saveDirectory = file.path(getwd(), \"results\")\n)\n\nThis will build the model, evaluate its performance using the test set and cross-validation and will store it in the directory results.\n\n\nView\nWe can now launch the Shiny app to have a look at the generated model.\n\nPatientLevelPrediction::viewPlp(lrResults)"
+  },
+  {
+    "objectID": "Practical.html#multiple-models",
+    "href": "Practical.html#multiple-models",
+    "title": "Practical",
+    "section": "Multiple models",
+    "text": "Multiple models\nIt is very straightforward to develop more than one models by only making a few additions to the previous settings. We will demonstrate how we can use PatientLevelPrediction to train a LASSO logistic regression, a random forest and a gradient boosting machine model on the same data and compare their performance.\nFirst, we need to define the settings for the considered model. In this case, we leave only consider the default options:\n\nmodelDesignLasso &lt;- PatientLevelPrediction::createModelDesign(\n  targetId = 1782815, \n  outcomeId = 1782813, \n  restrictPlpDataSettings = restrictPlpDataSettings, \n  populationSettings = populationSettings, \n  covariateSettings = covariateSettings, \n  featureEngineeringSettings = featureEngineeringSettings,\n  sampleSettings = sampleSettings, \n  splitSettings = splitSettings, \n  preprocessSettings = preprocessSettings, \n  modelSettings = PatientLevelPrediction::setLassoLogisticRegression()\n)\n\nmodelDesignRandomForest &lt;- PatientLevelPrediction::createModelDesign(\n  targetId = 1782815, \n  outcomeId = 1782813, \n  restrictPlpDataSettings = restrictPlpDataSettings, \n  populationSettings = populationSettings, \n  covariateSettings = covariateSettings, \n  featureEngineeringSettings = featureEngineeringSettings,\n  sampleSettings = sampleSettings, \n  splitSettings = splitSettings, \n  preprocessSettings = preprocessSettings, \n  modelSettings = PatientLevelPrediction::setRandomForest()\n)\n\nmodelDesignGradientBoosting &lt;- PatientLevelPrediction::createModelDesign(\n  targetId = 1782815, \n  outcomeId = 1782813, \n  restrictPlpDataSettings = restrictPlpDataSettings, \n  populationSettings = populationSettings, \n  covariateSettings = covariateSettings, \n  featureEngineeringSettings = featureEngineeringSettings,\n  sampleSettings = sampleSettings, \n  splitSettings = splitSettings, \n  preprocessSettings = preprocessSettings, \n  modelSettings = PatientLevelPrediction::setGradientBoostingMachine()\n)\n\nWe can train the models all at once with:\n\nresults &lt;- PatientLevelPrediction::runMultiplePlp(\n  databaseDetails = databaseDetails, \n  modelDesignList = list(\n    modelDesignLasso, \n    modelDesignRandomForest, \n    modelDesignGradientBoosting\n  ), \n  onlyFetchData = FALSE,\n  logSettings = PatientLevelPrediction::createLogSettings(),\n  saveDirectory =  file.path(getwd(), \"results/multiple_models\")\n)\n\nFinally, we can view the results in a Shiny app using:\n\nPatientLevelPrediction::viewMultiplePlp(\"results/multiple_models\")"
+  }
+]

@@ -1,0 +1,18 @@
+project:
+  type: website
+
+website:
+  title: "Summer School 2024 on AI and ML in BME"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "Presentation"
+        href: ml-in-omop-summerschool-2024.html
+      - text: "Practical"
+        href: Practical.html
+    right:
+      - icon: envelope
+        href: "mailto:arekkas@certh.gr"
+      - icon: github
+        href: "https://github.com/rekkasa-presentations/ml-in-omop-summerschool-2024"

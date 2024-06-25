@@ -1,0 +1,90 @@
+---
+title: "Machine learning applications using OMOP-CDM"
+author: "Alexandros Rekkas"
+logo: images/ohdsi_gr.jpeg
+format: 
+  revealjs:
+    auto-stretch: false
+---
+
+## Introduction
+
+\
+
+![](images/framework.png){fig-align="center" width="80%"}
+
+## Introduction
+
+\
+
+[![](images/hades.png){fig-align="center" width="80%"}](https://ohdsi.github.io/Hades/packages.html)
+
+## Problem
+
+\
+\
+
+> For patients hospitalized with pneumonia, what is their probability of death
+> within the next 60 days?
+
+## Cohort definition
+
+\
+
+*Cohort* is a set of patients that fulfill a prespecified set of criteria for a duration of time.
+
+\
+
+![](images/Figure1.png){fig-align="center" width="80%"}
+
+## Prediction setting
+
+* Target cohort (T)
+* Outcome cohort (O)
+* Time at risk (TAR)
+
+![](images/totar.png){fig-align='center' width="50%"}
+
+## Settings
+
+\
+\
+
+* *Database details*: The connection details to the database.
+* *Population*: Further restrictions on our dataset.
+* *Split*: The settings for the split (train/test).
+
+## Settings
+
+\
+\
+
+* *Restrict*: Mostly temporal restrictions.
+* *Sample*: Settings for sampling from the train set.
+* *Feature engineering*: Settings for modifying covariates.
+
+## Settings
+
+\
+\
+
+* *Covariates*: Covariates to be considered.
+* *Model*: Settings for the model(s) to be trained.
+
+## Performance evaluation
+
+\
+
+> **Discrimination**
+>
+> How well can the model separate lower risk from higher risk patients?
+
+## Performance evaluation
+
+\
+
+
+> **Calibration**
+>
+> The agreement between observed and estimated probabilities of the
+> occurence of the event or outcome.
