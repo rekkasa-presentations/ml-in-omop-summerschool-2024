@@ -1,5 +1,67 @@
 ---
 title: "Machine learning applications using OMOP-CDM"
 author: "Alexandros Rekkas"
-format: revealjs
+format: 
+  revealjs:
+    auto-stretch: false
 ---
+
+## Cohort definition
+
+\
+
+*Cohort* is a set of patients that fulfill a prespecified set of criteria for a duration of time.
+
+\
+
+![](images/Figure1.png){fig-align="center" width="80%"}
+
+## Prediction setting
+
+* Target cohort (T)
+* Outcome cohort (O)
+* Time at risk (TAR)
+
+![](images/totar.png){fig-align='center' width="50%"}
+
+## Settings
+
+\
+\
+
+* *Database details*: The connection details to the database.
+* *Population*: Further restrictions on our dataset.
+* *Split*: The settings for the split (train/test).
+
+## Settings
+
+\
+\
+
+* *Restrict*: Mostly temporal restrictions.
+* *Sample*: Settings for sampling from the train set.
+* *Feature engineering*: Settings for modifying covariates.
+
+## Settings
+
+\
+\
+
+* *Covariates*: Covariates to be considered.
+* *Model*: Settings for the model(s) to be trained.
+
+## Performance evaluation
+
+
+> **Discrimination**
+>
+> How well can the model separate lower risk from higher risk patients?
+
+## Performance evaluation
+
+Assume data $(x_i,y_i), i=1\dots n$ and predictions $\hat{p}_i$, then discrimination is
+$$
+P(y_i>y_j|\hat{p}_i>\hat{p}_j)
+$$
+
+for any two patients $i$ and $j$.

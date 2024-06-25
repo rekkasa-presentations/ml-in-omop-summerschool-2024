@@ -337,9 +337,77 @@ Alexandros Rekkas
 </div>
 
 </section>
-<section id="introduction" class="slide level2">
-<h2>Introduction</h2>
-<p>test</p>
+<section id="cohort-definition" class="slide level2">
+<h2>Cohort definition</h2>
+<p><br>
+</p>
+<p><em>Cohort</em> is a set of patients that fulfill a prespecified set of criteria for a duration of time.</p>
+<p><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/Figure1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</section>
+<section id="prediction-setting" class="slide level2">
+<h2>Prediction setting</h2>
+<ul>
+<li>Target cohort (T)</li>
+<li>Outcome cohort (O)</li>
+<li>Time at risk (TAR)</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/totar.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></p>
+</figure>
+</div>
+</section>
+<section id="settings" class="slide level2">
+<h2>Settings</h2>
+<p><br>
+<br>
+</p>
+<ul>
+<li><em>Database details</em>: The connection details to the database.</li>
+<li><em>Population</em>: Further restrictions on our dataset.</li>
+<li><em>Split</em>: The settings for the split (train/test).</li>
+</ul>
+</section>
+<section id="settings-1" class="slide level2">
+<h2>Settings</h2>
+<p><br>
+<br>
+</p>
+<ul>
+<li><em>Restrict</em>: Mostly temporal restrictions.</li>
+<li><em>Sample</em>: Settings for sampling from the train set.</li>
+<li><em>Feature engineering</em>: Settings for modifying covariates.</li>
+</ul>
+</section>
+<section id="settings-2" class="slide level2">
+<h2>Settings</h2>
+<p><br>
+<br>
+</p>
+<ul>
+<li><em>Covariates</em>: Covariates to be considered.</li>
+<li><em>Model</em>: Settings for the model(s) to be trained.</li>
+</ul>
+</section>
+<section id="performance-evaluation" class="slide level2">
+<h2>Performance evaluation</h2>
+<blockquote>
+<p><strong>Discrimination</strong></p>
+<p>How well can the model separate lower risk from higher risk patients?</p>
+</blockquote>
+</section>
+<section id="performance-evaluation-1" class="slide level2">
+<h2>Performance evaluation</h2>
+<p>Assume data <span class="math inline">\((x_i,y_i), i=1\dots n\)</span> and predictions <span class="math inline">\(\hat{p}_i\)</span>, then discrimination is <span class="math display">\[
+P(y_i&gt;y_j|\hat{p}_i&gt;\hat{p}_j)
+\]</span></p>
+<p>for any two patients <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</p>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 

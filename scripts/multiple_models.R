@@ -28,19 +28,6 @@ databaseDetails <- PatientLevelPrediction::createDatabaseDetails(
 
 restrictPlpDataSettings <- PatientLevelPrediction::createRestrictPlpDataSettings()
 
-plpData <- PatientLevelPrediction::getPlpData(
-  databaseDetails = databaseDetails,
-  covariateSettings = covariateSettings,
-  restrictPlpDataSettings = restrictPlpDataSettings
-)
-# 
-# PatientLevelPrediction::savePlpData(
-#   plpData = plpData,
-#   file = "data/plpData"
-# )
-
-# plpData <- PatientLevelPrediction::loadPlpData("data/plpData")
-
 populationSettings <- PatientLevelPrediction::createStudyPopulationSettings(
   washoutPeriod = 364,
   firstExposureOnly = FALSE,
@@ -73,31 +60,53 @@ preprocessSettings <- PatientLevelPrediction::createPreprocessSettings(
   removeRedundancy = TRUE
 )
 
-
-lrModel <- PatientLevelPrediction::setLassoLogisticRegression()
-
-
-lrModel <- PatientLevelPrediction::setRandomForest()
-
-lrResults <- PatientLevelPrediction::runPlp(
-  plpData = plpData,
+modelDesignLasso <- PatientLevelPrediction::createModelDesign(
+  targetId = 1782815, 
   outcomeId = 1782813, 
-  analysisId = "single_model_rf",
-  analysisName = "Demonstration of runPlp for training single PLP models",
+  restrictPlpDataSettings = restrictPlpDataSettings, 
   populationSettings = populationSettings, 
-  splitSettings = splitSettings,
+  covariateSettings = covariateSettings, 
+  featureEngineeringSettings = featureEngineeringSettings,
   sampleSettings = sampleSettings, 
-  featureEngineeringSettings = featureEngineeringSettings, 
-  preprocessSettings = preprocessSettings,
-  modelSettings = lrModel,
-  logSettings = PatientLevelPrediction::createLogSettings(), 
-  executeSettings = PatientLevelPrediction::createExecuteSettings(
-    runSplitData = TRUE, 
-    runSampleData = TRUE, 
-    runfeatureEngineering = TRUE, 
-    runPreprocessData = TRUE, 
-    runModelDevelopment = TRUE, 
-    runCovariateSummary = TRUE
+  splitSettings = splitSettings, 
+  preprocessSettings = preprocessSettings, 
+  modelSettings = PatientLevelPrediction::setLassoLogisticRegression()
+)
+
+modelDesignRandomForest <- PatientLevelPrediction::createModelDesign(
+  targetId = 1782815, 
+  outcomeId = 1782813, 
+  restrictPlpDataSettings = restrictPlpDataSettings, 
+  populationSettings = populationSettings, 
+  covariateSettings = covariateSettings, 
+  featureEngineeringSettings = featureEngineeringSettings,
+  sampleSettings = sampleSettings, 
+  splitSettings = splitSettings, 
+  preprocessSettings = preprocessSettings, 
+  modelSettings = PatientLevelPrediction::setRandomForest()
+)
+
+modelDesignGradientBoosting <- PatientLevelPrediction::createModelDesign(
+  targetId = 1782815, 
+  outcomeId = 1782813, 
+  restrictPlpDataSettings = restrictPlpDataSettings, 
+  populationSettings = populationSettings, 
+  covariateSettings = covariateSettings, 
+  featureEngineeringSettings = featureEngineeringSettings,
+  sampleSettings = sampleSettings, 
+  splitSettings = splitSettings, 
+  preprocessSettings = preprocessSettings, 
+  modelSettings = PatientLevelPrediction::setGradientBoostingMachine()
+)
+
+results <- PatientLevelPrediction::runMultiplePlp(
+  databaseDetails = databaseDetails, 
+  modelDesignList = list(
+    modelDesignLasso, 
+    modelDesignRandomForest, 
+    modelDesignGradientBoosting
   ), 
-  saveDirectory = file.path(getwd(), "results")
+  onlyFetchData = FALSE,
+  logSettings = PatientLevelPrediction::createLogSettings(),
+  saveDirectory =  file.path(getwd(), "results")
 )
