@@ -76,13 +76,10 @@ preprocessSettings <- PatientLevelPrediction::createPreprocessSettings(
 
 lrModel <- PatientLevelPrediction::setLassoLogisticRegression()
 
-
-lrModel <- PatientLevelPrediction::setRandomForest()
-
 lrResults <- PatientLevelPrediction::runPlp(
   plpData = plpData,
   outcomeId = 1782813, 
-  analysisId = "single_model_rf",
+  analysisId = "single_model",
   analysisName = "Demonstration of runPlp for training single PLP models",
   populationSettings = populationSettings, 
   splitSettings = splitSettings,

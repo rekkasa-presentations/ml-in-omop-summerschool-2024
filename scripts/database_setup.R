@@ -32,19 +32,3 @@ cohortsGenerated <- CohortGenerator::generateCohortSet(
   cohortTableNames = cohortTableNames,
   cohortDefinitionSet = cohortDefinitionSet
 )
-
-# Next create the tables on the database
-CohortGenerator::createCohortTables(
-  connectionDetails = connectionDetails,
-  cohortTableNames = cohortTableNames,
-  cohortDatabaseSchema = "main"
-)
-
-# Generate the cohort set
-cohortsGenerated <- CohortGenerator::generateCohortSet(
-  connectionDetails = connectionDetails,
-  cdmDatabaseSchema = "main",
-  cohortDatabaseSchema = "main",
-  cohortTableNames = cohortTableNames,
-  cohortDefinitionSet = cohortDefinitionSet
-)

@@ -1,10 +1,31 @@
 ---
 title: "Machine learning applications using OMOP-CDM"
 author: "Alexandros Rekkas"
+logo: images/ohdsi_gr.jpeg
 format: 
   revealjs:
     auto-stretch: false
 ---
+
+## Introduction
+
+\
+
+![](images/framework.png){fig-align="center" width="80%"}
+
+## Introduction
+
+\
+
+[![](images/hades.png){fig-align="center" width="80%"}](https://ohdsi.github.io/Hades/packages.html)
+
+## Problem
+
+\
+\
+
+> For patients hospitalized with pneumonia, what is their probability of death
+> within the next 60 days?
 
 ## Cohort definition
 
@@ -52,6 +73,7 @@ format:
 
 ## Performance evaluation
 
+\
 
 > **Discrimination**
 >
@@ -59,9 +81,10 @@ format:
 
 ## Performance evaluation
 
-Assume data $(x_i,y_i), i=1\dots n$ and predictions $\hat{p}_i$, then discrimination is
-$$
-P(y_i>y_j|\hat{p}_i>\hat{p}_j)
-$$
+\
 
-for any two patients $i$ and $j$.
+
+> **Calibration**
+>
+> The agreement between observed and estimated probabilities of the
+> occurence of the event or outcome.

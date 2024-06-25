@@ -108,5 +108,5 @@ results <- PatientLevelPrediction::runMultiplePlp(
   ), 
   onlyFetchData = FALSE,
   logSettings = PatientLevelPrediction::createLogSettings(),
-  saveDirectory =  file.path(getwd(), "results")
+  saveDirectory =  file.path(getwd(), "results/multiple_models")
 )
