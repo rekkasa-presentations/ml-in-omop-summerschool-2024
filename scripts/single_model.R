@@ -28,19 +28,6 @@ databaseDetails <- PatientLevelPrediction::createDatabaseDetails(
 
 restrictPlpDataSettings <- PatientLevelPrediction::createRestrictPlpDataSettings()
 
-plpData <- PatientLevelPrediction::getPlpData(
-  databaseDetails = databaseDetails,
-  covariateSettings = covariateSettings,
-  restrictPlpDataSettings = restrictPlpDataSettings
-)
-# 
-# PatientLevelPrediction::savePlpData(
-#   plpData = plpData,
-#   file = "data/plpData"
-# )
-
-# plpData <- PatientLevelPrediction::loadPlpData("data/plpData")
-
 populationSettings <- PatientLevelPrediction::createStudyPopulationSettings(
   washoutPeriod = 364,
   firstExposureOnly = FALSE,
@@ -76,6 +63,19 @@ preprocessSettings <- PatientLevelPrediction::createPreprocessSettings(
 
 lrModel <- PatientLevelPrediction::setLassoLogisticRegression()
 
+plpData <- PatientLevelPrediction::getPlpData(
+  databaseDetails = databaseDetails,
+  covariateSettings = covariateSettings,
+  restrictPlpDataSettings = restrictPlpDataSettings
+)
+# 
+# PatientLevelPrediction::savePlpData(
+#   plpData = plpData,
+#   file = "data/plpData"
+# )
+
+# plpData <- PatientLevelPrediction::loadPlpData("data/plpData")
+
 lrResults <- PatientLevelPrediction::runPlp(
   plpData = plpData,
   outcomeId = 1782813, 
@@ -98,3 +98,11 @@ lrResults <- PatientLevelPrediction::runPlp(
   ), 
   saveDirectory = file.path(getwd(), "results")
 )
+
+# PatientLevelPrediction::viewPlp(lrResults)
+
+lrResults <- PatientLevelPrediction::loadPlpResult(
+  dirPath = "results/single_model/plpResult/"
+)
+
+PatientLevelPrediction::viewPlp(lrResults)

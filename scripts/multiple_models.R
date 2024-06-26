@@ -110,3 +110,5 @@ results <- PatientLevelPrediction::runMultiplePlp(
   logSettings = PatientLevelPrediction::createLogSettings(),
   saveDirectory =  file.path(getwd(), "results/multiple_models")
 )
+
+PatientLevelPrediction::viewMultiplePlp("results/multiple_models")

@@ -6,6 +6,13 @@ format:
   revealjs:
     auto-stretch: false
 ---
+## Introduction
+
+\
+\
+
+[https://rekkasa-presentations.github.io/ml-in-omop-summerschool-2024/](https://rekkasa-presentations.github.io/ml-in-omop-summerschool-2024/)
+
 
 ## Introduction
 
@@ -16,8 +23,18 @@ format:
 ## Introduction
 
 \
+\
+<span style="font-size: 69px;">
+[PatientLevelPrediction](https://ohdsi.github.io/PatientLevelPrediction/)
+</span>
+
+## Introduction
+
+\
+\
 
 [![](images/hades.png){fig-align="center" width="80%"}](https://ohdsi.github.io/Hades/packages.html)
+
 
 ## Problem
 
@@ -44,6 +61,8 @@ format:
 * Time at risk (TAR)
 
 ![](images/totar.png){fig-align='center' width="50%"}
+
+
 
 ## Settings
 
